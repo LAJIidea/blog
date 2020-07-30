@@ -1,0 +1,34 @@
+body{
+    margin: 0px;
+}
+.zhezhao{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    background: #000;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+.tankuang{
+    position: relative;
+    background: #ffffff;
+    width: 50%;
+    height: 80%;
+    border-radius: 5px;
+    margin: 5% auto;
+}
+#header{
+    height: 40px;
+}
+#header-right{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background: red;
+    color: #fff;
+    right: 5px;
+    top: 5px;
+    text-align: center;
+}

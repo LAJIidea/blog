@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Edit</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/vendor.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/mdedit/css/editormd.min.css">
+    <!-- script
+    ================================================== -->
+    <script src="/js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body class="ss-bg-white">
+
+<!-- preloader
+================================================== -->
+<div id="preloader">
+    <div id="loader" class="dots-fade">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<div id="top" class="s-wrap site-wrapper">
+
+    <!-- site header
+    ================================================== -->
+    <header class="s-header header">
+
+        <div class="header__top">
+            <div class="header__logo">
+                <a class="site-logo" href="/">
+                    <img src="/img/logo.png" alt="Homepage">
+                </a>
+            </div>
+
+            <div class="header__search">
+
+                <form role="search" method="get" class="header__search-form" action="#">
+                    <label>
+                        <span class="hide-content">Search for:</span>
+                        <input type="search" class="header__search-field" placeholder="Type Keywords" value="" name="s" title="Search for:" autocomplete="off">
+                    </label>
+                    <input type="submit" class="header__search-submit" value="Search">
+                </form>
+
+                <a href="#0" title="Close Search" class="header__search-close">Close</a>
+
+            </div>  <!-- end header__search -->
+
+            <!-- toggles -->
+            <a href="#0" class="header__search-trigger"></a>
+            <a href="#0" class="header__menu-toggle"><span>Menu</span></a>
+
+        </div>
+
+        <nav class="header__nav-wrap">
+
+            <ul class="header__nav">
+                <li class="current"><a href="/" title="">Home</a></li>
+                <li class="has-children current">
+                    <a href="#" title="">Blog</a>
+                    <ul class="sub-menu">
+                        <li><a href="">Java</a></li>
+                        <li><a href="">Python</a></li>
+                        <li><a href="">JavaScript</a></li>
+                        <li><a href="">Golang</a></li>
+                    </ul>
+                </li>
+                <li><a href="#0" title="">Edit</a></li>
+                <li><a href="#" title="">Notebook</a></li>
+                <li><a href="#" title="">About</a></li>
+                <li class="has-children" th:if="${name!=null}"><a href="#" title="" th:text="${name}"></a>
+                    <ul class="sub-menu">
+                        <li><a href="#">个人中心</a></li>
+                        <li><a href="/loginout">登出</a></li>
+                    </ul>
+                </li>
+            </ul> <!-- end header__nav -->
+
+            <ul class="header__social">
+                <li class="ss-facebook">
+                    <a href="https://facebook.com/">
+                        <span class="screen-reader-text">Facebook</span>
+                    </a>
+                </li>
+                <li class="ss-twitter">
+                    <a href="#0">
+                        <span class="screen-reader-text">Twitter</span>
+                    </a>
+                </li>
+                <li class="ss-dribbble">
+                    <a href="#0">
+                        <span class="screen-reader-text">Instagram</span>
+                    </a>
+                </li>
+                <li class="ss-behance">
+                    <a href="#0">
+                        <span class="screen-reader-text">Behance</span>
+                    </a>
+                </li>
+            </ul>
+
+        </nav> <!-- end header__nav-wrap -->
+
+    </header> <!-- end s-header -->
+
+
+    <!-- site content
+    ================================================== -->
+    <div class="s-content content">
+        <main class="row content__page">
+
+            <form id="formBlog" action="/publish" method="post">
+                文章标题:<input id="blog_title" name="title"/>
+                <textarea id="blog_md" name="md"  style="display: none;"></textarea>
+            </form>
+
+        <div id="editormd">
+            <textarea style="display: none" id="mdtext">### Hello Editor.md !</textarea>
+        </div>
+
+        <div>
+            <button class="btn btn-success btn-blog-save" onclick="publish()">提交内容</button>
+            <button class="btn btn-success btn-blog-save"><a href="/add">发布内容</a></button>
+            <span id="pubinfo"></span>
+        </div>
+
+        </main>
+
+    </div> <!-- end s-content -->
+
+
+    <!-- footer
+    ================================================== -->
+    <footer class="s-footer footer">
+        <div class="row">
+            <div class="column large-full footer__content">
+                <div class="footer__copyright">
+                        <span>© By kingkiller <a href="#" target="_blank" title="">KING</a></span> <span>Design by kingkiller</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top"></a>
+        </div>
+    </footer>
+
+</div> <!-- end s-wrap -->
+
+
+<!-- Java Script
+================================================== -->
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/main.js"></script>
+<script src="/mdedit/editormd.js"></script>
+<script>
+    var editor;
+    $(function () {
+            editor = editormd("editormd",{
+            height : 800,
+            width : 1200,
+            path : "/mdedit/lib/",
+            saveHTMLToTextarea : true,
+            previewTheme : "",
+            watch : true,                // 开启实时预览
+            tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart: true,             // 开启流程图支持，默认关闭
+            sequenceDiagram: true,
+            imageUpload: true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "/uploadImage",//注意你后端的上传图片服务地址
+            onload: function(){
+                this.width("100%");
+                this.height(480);
+            }
+        })
+    })
+
+    function publish() {
+        $.post({
+            url:"/publish",
+            data:{"title":$("#blog_title").val(),"text":editor.getMarkdown()},
+            success : function(data) {
+                $("#pubinfo").html(data);
+            }
+        });
+    }
+</script>
+</body>

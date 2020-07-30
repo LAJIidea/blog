@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add</title>
+    <link rel="stylesheet" href="/css/tanchuang.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/fileinput.css" media="all" type="text/css"/>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/fileinput.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/zh.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div id="add1">
+            <button id="add" type="button" onclick="dianwo()" class="rounded-circle">+</button><br/>
+            <h2>点此添加头像</h2>
+        </div>
+        <div id="add2"><img id="add3" src="" class="rounded-circle"></div>
+        <div><button class="btn btn-primary"><a href="/">下一步</a></button></div>
+    </div>
+</div>
+<div class="zhezhao" id='zhezhao'>
+    <div class="tankuang">
+        <div id="header">
+            <div class="container-fluid">
+                <form id="form" action="upload/insert" method="post" enctype="multipart/form-data">
+                    <div class="row form-group">
+                        <label class="col-md-4">图片上传:</label>
+                        <div class="col-sm-12">
+                            <input id="input-id" name="file"  type="file" data-show-caption="true">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="header-right" onclick="hidder()">x</div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    #add1{
+        text-align: center;
+    }
+    #add{
+        margin-top: 100px;
+        width: 100px;
+        height: 100px;
+    }
+    #add2{
+        text-align: center;
+    }
+    #add3{
+        margin-top: 100px;
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        initFileInput("input-id");
+
+    })
+
+    function initFileInput(ctrlName) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: "/recivePhoto", //上传的地址
+            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+            //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
+            uploadAsync: true, //默认异步上传
+            showUpload: true, //是否显示上传按钮
+            showRemove : true, //显示移除按钮
+            showPreview : true, //是否显示预览
+            showCaption: false,//是否显示标题
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: true,//是否显示拖拽区域
+            //minImageWidth: 50, //图片的最小宽度
+            //minImageHeight: 50,//图片的最小高度
+            //maxImageWidth: 1000,//图片的最大宽度
+            //maxImageHeight: 1000,//图片的最大高度
+            //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
+            //minFileCount: 0,
+            //maxFileCount: 10, //表示允许同时上传的最大文件个数
+            enctype: 'multipart/form-data',
+            validateInitialCount:true,
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+
+        }).on('filepreupload', function(event, data, previewId, index) {     //上传中
+            var form = data.form, files = data.files, extra = data.extra,
+                response = data.response, reader = data.reader;
+            console.log('文件正在上传');
+        }).on("fileuploaded", function (event, data, previewId, index) {    //一个文件上传成功
+            console.log('文件上传成功！'+data.id);
+
+        }).on('fileerror', function(event, data, msg) {  //一个文件上传失败
+            console.log('文件上传失败！'+data.id);
+        })
+
+
+    }
+    document.getElementById('zhezhao').style.display="none";
+    document.getElementById('add3').style.display="none";
+    function dianwo(){
+        document.getElementById('zhezhao').style.display="";
+        document.getElementById('add1').style.display="none";
+
+    }
+    function hidder(){
+        document.getElementById('zhezhao').style.display="none";
+        document.getElementById('add3').style.display=""
+
+        showPhoto();
+    }
+
+    function showPhoto() {
+        $.ajax({
+            url:"/showPhoto",
+            success:function (data) {
+                console.log(data)
+                document.getElementById("add3").src=data;
+            }
+
+        })
+    }
+
+</script>
+</body>
+</html>
