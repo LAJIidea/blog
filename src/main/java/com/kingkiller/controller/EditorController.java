@@ -1,5 +1,7 @@
 package com.kingkiller.controller;
 
+import com.kingkiller.exception.CustomerErrorCode;
+import com.kingkiller.exception.CustomerServiceException;
 import com.kingkiller.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +26,7 @@ public class EditorController {
             model.addAttribute("name",name);
             return "edit";
         }
-        model.addAttribute("msg","请先登陆");
-        return "erro";
+        throw new CustomerServiceException(CustomerErrorCode.LOGIN_IS_ERROR);
     }
 
     @RequestMapping("/publish")

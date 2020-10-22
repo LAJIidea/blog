@@ -10,7 +10,7 @@
     <link rel="canonical" href="https://v4.bootcss.com/docs/examples/sign-in/">
 
     <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- Favicons -->
     <meta name="msapplication-config" content="/docs/assets/img/favicons/browserconfig.xml">
@@ -44,6 +44,7 @@
     <input type="text" id="inputEmail" class="form-control" name="username" placeholder="Username" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+    <span style="color: red" th:text="${msg}"></span>
     <div class="checkbox mb-3">
         <label>
             <input type="checkbox" value="remember-me"> Remember me
@@ -55,7 +56,6 @@
         <a href="#">
             <i class="fa fa-weixin" aria-hidden="true"></i>微信登陆
         </a>
-        <span th:text="${msg}"></span>
     </div>
     <p class="mt-5 mb-3 text-muted">&copy; By kingkiller</p>
 </form>

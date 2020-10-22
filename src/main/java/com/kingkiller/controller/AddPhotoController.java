@@ -22,6 +22,9 @@ public class AddPhotoController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private FileUtils fileUtils;
+
     @RequestMapping("/recivePhoto")
     @ResponseBody
     public void recivePhoto(HttpServletRequest request, HttpServletResponse response, HttpSession session
@@ -32,15 +35,16 @@ public class AddPhotoController {
             try{
                 if (!file.isEmpty()){
                     //上传文件,随机名称,";"分号隔开
-                    path = FileUtils.uploadImage(request, "/upload/" + TimeUtil.formateString(new Date(), "yyyy-MM-dd") + "/", file, true);
-
+                    //path = FileUtils.uploadImage(request, "/upload/" + TimeUtil.formateString(new Date(), "yyyy-MM-dd") + "/", file, true);
+                    path  = fileUtils.uploadCosBucket(file, "FILE");
                 }
                 //上传成功
-                if (path!=null){
+                if (path != null){
                     System.out.println("上传成功");
                     Constants.printJson(response,path);
                     int id = (int) session.getAttribute("id");
                     blogService.addPhoto(path,id);
+                    session.setAttribute("picUrl",path);
                 }else {
                     Constants.printJson(response,"上传失败! 文件格式错误");
                 }
@@ -58,8 +62,9 @@ public class AddPhotoController {
     @RequestMapping("/showPhoto")
     @ResponseBody
     public String showPhoto(HttpSession session){
-        int id = (int)session.getAttribute("id");
-        String photo = blogService.showPhoto(id);
+//        int id = (int)session.getAttribute("id");
+//        String photo = blogService.showPhoto(id);
+        String photo =(String)session.getAttribute("picUrl");
         return photo;
     }
 
